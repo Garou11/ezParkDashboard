@@ -49,6 +49,11 @@ app.post('/dashboard', async function (req, res) {
         console.log(err);
         return res.redirect(301,'/');
     }
-})
+});
+
+app.get('/aurbis', async (req,res) => {
+    let data ={};
+    res.render('dashboardView');
+});
 
 app.listen(8081);

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<head>
+    <title>Dashboard</title>
+    <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
+    <style>
+        body{
+    background-image: url('background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    }
+
+    h1{
+        color: azure;
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    table{
+        width: 80%;
+        margin: 40px auto;
+        background: rgb(2, 81, 71);
+    }
+
+    table.list{
+        text-align: center;
+        width: 100%;
+    }
+
+    th{
+        color: white;
+    }
+
+    label{
+        color: white;
+    }
+
+    td{
+        border: 1px solid rgb(204,200,200);
+        text-align: left;
+        padding: 8px 15px;
+    }
+
+    tr:nth-child(even), table.list thread> tr{
+        background-color: rgb(204,200,200);
+    }
+
+    input[type="text"],input[type="number"]{
+        width:60%;
+        padding:12px 20px;
+        margin:8px 0;
+        display: inline-block;
+        border: 1px solid rgb(165,161,161);
+        border-radius: 10px;
+    }
+
+    input[type="submit"],input[type="reset"]{
+        background: #eee;
+        padding:6px 12px;
+        margin:15px 0 10px;
+        display: inline-block;
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        cursor: pointer;
+        outline: none;
+    }
+
+    input[type="submit"]:hover{
+        background: #4b99d8;
+    }
+
+    input[type="reset"]:hover{
+        background: #4b99d8;
+    }
+
+    button{
+        background: #eee;
+        padding:6px 12px;
+        margin:15px 0 10px;
+        display: inline-block;
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        cursor: pointer;
+        outline: none;
+    }
+
+    button:hover{
+        background:#4b99d8 ;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>Aurbis Parking Dashboard</h1>
+    <table>
+        <tr>
+            <td >
+                <form autocomplete="off" onsubmit="onFormSubmit()">
+                    <div>
+                        <label for="productCode">Tenant</label>
+                        <input type="text" name="productCode" id="productCode">
+                    </div>
+                    <div>
+                        <label for="product">Car Slots</label>
+                        <input type="text" name="product" id="product">
+                    </div>
+                    <div>
+                        <label for="qty">Scooter Slots</label>
+                        <input type="number" name="qty" id="qty">
+                    </div>
+                    <!-- <div>
+                        <label for="perPrice">Price</label>
+                        <input type="number" name="perPrice" id="perPrice">
+                    </div> -->
+
+                    <div class="form_action--button">
+                        <input type="submit" value="Submit">
+                        <input type="reset" value="Reset">
+                    </div>
+                </form>
+
+                <td >
+                    <table class="list" id="storeList">
+                        <thead>
+                            <tr>
+                                <th>Tenant</th>
+                                <th>Car Slots</th>
+                                <th>Scooter Slots</th>
+                                <th>Total Slots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </td>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var selectedRow = null
+
+function onFormSubmit(e) {
+	event.preventDefault();
+        var formData = readFormData();
+        if (selectedRow == null){
+            insertNewRecord(formData);
+		}
+        else{
+            updateRecord(formData);
+		}
+        resetForm();    
+}
+
+//Retrieve the data
+function readFormData() {
+    var formData = {};
+    formData["productCode"] = document.getElementById("productCode").value;
+    formData["product"] = document.getElementById("product").value;
+    formData["qty"] = document.getElementById("qty").value;
+    formData["perPrice"] = document.getElementById("perPrice").value;
+    return formData;
+}
+
+//Insert the data
+function insertNewRecord(data) {
+    var table = document.getElementById("storeList").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    cell1 = newRow.insertCell(0);
+		cell1.innerHTML = data.productCode;
+    cell2 = newRow.insertCell(1);
+		cell2.innerHTML = data.product;
+    cell3 = newRow.insertCell(2);
+		cell3.innerHTML = data.qty;
+    cell4 = newRow.insertCell(3);
+		cell4.innerHTML = data.perPrice;
+    cell4 = newRow.insertCell(4);
+        cell4.innerHTML = `<button onClick="onEdit(this)">Edit</button> <button onClick="onDelete(this)">Delete</button>`;
+}
+
+//Edit the data
+function onEdit(td) {
+    selectedRow = td.parentElement.parentElement;
+    document.getElementById("productCode").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("product").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("qty").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("perPrice").value = selectedRow.cells[3].innerHTML;
+}
+function updateRecord(formData) {
+    selectedRow.cells[0].innerHTML = formData.productCode;
+    selectedRow.cells[1].innerHTML = formData.product;
+    selectedRow.cells[2].innerHTML = formData.qty;
+    selectedRow.cells[3].innerHTML = formData.perPrice;
+}
+
+//Delete the data
+function onDelete(td) {
+    if (confirm('Do you want to delete this record?')) {
+        row = td.parentElement.parentElement;
+        document.getElementById('storeList').deleteRow(row.rowIndex);
+        resetForm();
+    }
+}
+
+//Reset the data
+function resetForm() {
+    document.getElementById("productCode").value = '';
+    document.getElementById("product").value = '';
+    document.getElementById("qty").value = '';
+    document.getElementById("perPrice").value = '';
+    selectedRow = null;
+}
+
+    </script>
+</body>
+</html>

@@ -4,91 +4,92 @@
     <!-- <link type="text/css" rel="stylesheet" href="style.css"> -->
     <style>
         body{
-    background-image: url('background.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    }
+        background-image: url('background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        }
 
-    h1{
-        color: azure;
-        text-align: center;
-        margin-top: 3rem;
-    }
+        h1{
+            color: black;
+            text-align: center;
+            margin-top: 3rem;
+        }
 
-    table{
-        width: 80%;
-        margin: 40px auto;
-        background: rgb(2, 81, 71);
-    }
+        table{
+            width: 80%;
+            margin: 40px auto;
+            background: rgb(2, 81, 71);
+        }
 
-    table.list{
-        text-align: center;
-        width: 100%;
-    }
+        table.list{
+            text-align: center;
+            width: 100%;
+        }
 
-    th{
-        color: white;
-    }
+        th{
+            color: white;
+        }
 
-    label{
-        color: white;
-    }
+        label{
+            color: white;
+        }
 
-    td{
-        border: 1px solid rgb(204,200,200);
-        text-align: left;
-        padding: 8px 15px;
-    }
+        td{
+            color: white;
+            border: 1px solid rgb(204,200,200);
+            text-align: left;
+            padding: 8px 15px;
+        }
 
-    tr:nth-child(even), table.list thread> tr{
-        background-color: rgb(204,200,200);
-    }
+        tr:nth-child(even), table.list thread> tr{
+            background-color: rgb(204,200,200);
+        }
 
-    input[type="text"],input[type="number"]{
-        width:60%;
-        padding:12px 20px;
-        margin:8px 0;
-        display: inline-block;
-        border: 1px solid rgb(165,161,161);
-        border-radius: 10px;
-    }
+        input[type="text"],input[type="number"]{
+            width:60%;
+            padding:12px 20px;
+            margin:8px 0;
+            display: inline-block;
+            border: 1px solid rgb(165,161,161);
+            border-radius: 10px;
+        }
 
-    input[type="submit"],input[type="reset"]{
-        background: #eee;
-        padding:6px 12px;
-        margin:15px 0 10px;
-        display: inline-block;
-        border: none;
-        border-radius: 30px;
-        font-size: 1rem;
-        cursor: pointer;
-        outline: none;
-    }
+        input[type="submit"],input[type="reset"]{
+            background: #eee;
+            padding:6px 12px;
+            margin:15px 0 10px;
+            display: inline-block;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+        }
 
-    input[type="submit"]:hover{
-        background: #4b99d8;
-    }
+        input[type="submit"]:hover{
+            background: #4b99d8;
+        }
 
-    input[type="reset"]:hover{
-        background: #4b99d8;
-    }
+        input[type="reset"]:hover{
+            background: #4b99d8;
+        }
 
-    button{
-        background: #eee;
-        padding:6px 12px;
-        margin:15px 0 10px;
-        display: inline-block;
-        border: none;
-        border-radius: 30px;
-        font-size: 1rem;
-        cursor: pointer;
-        outline: none;
-    }
+        button{
+            background: #eee;
+            padding:6px 12px;
+            margin:15px 0 10px;
+            display: inline-block;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+        }
 
-    button:hover{
-        background:#4b99d8 ;
-    }
+        button:hover{
+            background:#4b99d8 ;
+        }
     </style>
 </head>
 
@@ -160,7 +161,7 @@ function readFormData() {
     formData["productCode"] = document.getElementById("productCode").value;
     formData["product"] = document.getElementById("product").value;
     formData["qty"] = document.getElementById("qty").value;
-    formData["perPrice"] = document.getElementById("perPrice").value;
+    // formData["perPrice"] = document.getElementById("perPrice").value;
     return formData;
 }
 
@@ -175,7 +176,7 @@ function insertNewRecord(data) {
     cell3 = newRow.insertCell(2);
 		cell3.innerHTML = data.qty;
     cell4 = newRow.insertCell(3);
-		cell4.innerHTML = data.perPrice;
+		cell4.innerHTML = parseInt(data.product)+parseInt(data.qty);
     cell4 = newRow.insertCell(4);
         cell4.innerHTML = `<button onClick="onEdit(this)">Edit</button> <button onClick="onDelete(this)">Delete</button>`;
 }
@@ -186,13 +187,13 @@ function onEdit(td) {
     document.getElementById("productCode").value = selectedRow.cells[0].innerHTML;
     document.getElementById("product").value = selectedRow.cells[1].innerHTML;
     document.getElementById("qty").value = selectedRow.cells[2].innerHTML;
-    document.getElementById("perPrice").value = selectedRow.cells[3].innerHTML;
+    // document.getElementById("perPrice").value = selectedRow.cells[3].innerHTML;
 }
 function updateRecord(formData) {
     selectedRow.cells[0].innerHTML = formData.productCode;
     selectedRow.cells[1].innerHTML = formData.product;
     selectedRow.cells[2].innerHTML = formData.qty;
-    selectedRow.cells[3].innerHTML = formData.perPrice;
+    // selectedRow.cells[3].innerHTML = formData.perPrice;
 }
 
 //Delete the data

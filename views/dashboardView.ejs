@@ -96,7 +96,7 @@
             cursor: pointer;
         }
 
-        input[type=text]:disabled {
+        input[type="text"]:disabled {
             background-color: black;
             color: #ffcc99;
             border: none;
@@ -202,21 +202,11 @@
                     <tbody>
                         <% companyInfo.forEach(function(company, index) { %>
                             <tr>
-                                <td style="width:15%;">
-                                    <%= company.companyId %>
-                                </td>
-                                <td style="color:#ffcc99; width:25%;">
-                                    <%= company.companyName %>
-                                </td>
-                                <td>
-                                    <%= company.carSlots %>
-                                </td>
-                                <td>
-                                    <%= company.scooterSlots %>
-                                </td>
-                                <td>
-                                    <%= company.totalSlots %>
-                                </td>
+                                <td style="width:15%;"><%= company.companyId %></td>
+                                <td style="color:#ffcc99; width:25%;"><%= company.companyName %></td>
+                                <td><%= company.carSlots %></td>
+                                <td><%= company.scooterSlots %></td>
+                                <td><%= company.totalSlots %></td>
                                 <td>
                                     <button onClick="onEdit(this)">Edit</button>
                                     <a href="/removeCompany?AuthToken=<%= authToken %>&companyCode=<%= company.companyId %>&space=<%= company.spaceId %>"

@@ -65,7 +65,6 @@ app.get('/aurbis', async (req, res) => {
         data.space = space;
         data.companyInfo = companyInfo;
         data.opInfo = opInfo;
-        console.log(opInfo[0].meta);
         return res.render('dashboardView', data);
     } catch(e){
         console.log(e);

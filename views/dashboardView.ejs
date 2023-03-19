@@ -159,7 +159,7 @@
 <body>
     <h1 class="header">Aurbis Self-Service Portal</h1>
     <br>
-    
+
     <h2 class="header">Tenant Details</h2>
     <table>
         <tr>
@@ -198,17 +198,25 @@
                     <tbody>
                         <% companyInfo.forEach(function(company, index) { %>
                             <tr>
-                                <td style="width:15%;"><%= company.companyId %></td>
-                                <td style="color:#ffcc99; width:25%;"><%= company.companyName %></td>
-                                <td><%= company.carSlots %></td>
-                                <td><%= company.scooterSlots %></td>
-                                <td><%= company.totalSlots %></td>
+                                <td style="width:15%;">
+                                    <%= company.companyId %>
+                                </td>
+                                <td style="color:#ffcc99; width:25%;">
+                                    <%= company.companyName %>
+                                </td>
+                                <td>
+                                    <%= company.carSlots %>
+                                </td>
+                                <td>
+                                    <%= company.scooterSlots %>
+                                </td>
+                                <td>
+                                    <%= company.totalSlots %>
+                                </td>
                                 <td>
                                     <button onClick="onEdit(this)">Edit</button>
-                                    <a href="/removeCompany?AuthToken=<%= authToken %>&companyCode=<%= company.companyId %>&space=<%= company.spaceId %>"
-                                        style="text-decoration: none;">
-                                        <button>Delete</button>
-                                    </a>
+                                    <button
+                                        onclick="deleteComp('<%- authToken %>', '<%-company.companyId%>', '<%- company.spaceId%>')">Delete</button>
                                 </td>
                             </tr>
 
@@ -219,7 +227,7 @@
             </td>
         </tr>
     </table>
-    
+
     <br>
     <br>
 
@@ -260,20 +268,26 @@
                     <tbody>
                         <% opInfo.forEach(function(operator, index) { %>
                             <tr>
-                                <td style="width:15%;"><%= operator.operatorId %></td>
-                                <td style="color:#ffcc99; width:25%;"><%= operator.operator %></td>
-                                <td><%= operator.contact %></td>
-                                <td><%= operator.meta %></td>
+                                <td style="width:15%;">
+                                    <%= operator.operatorId %>
+                                </td>
+                                <td style="color:#ffcc99; width:25%;">
+                                    <%= operator.operator %>
+                                </td>
+                                <td>
+                                    <%= operator.contact %>
+                                </td>
+                                <td>
+                                    <%= operator.meta %>
+                                </td>
                                 <td>
                                     <button onClick="onEditOp(this)">Edit</button>
-                                    <a href="/removeOperator?AuthToken=<%= authToken %>&opCode=<%= operator.operatorId %>&space=<%= operator.spaceId %>"
-                                        style="text-decoration: none;">
-                                        <button>Delete</button>
-                                    </a>
+                                    <button
+                                        onclick="deleteOp('<%- authToken %>','<%- operator.operatorId %>','<%- operator.spaceId %>' )">Delete</button>
                                 </td>
                             </tr>
 
-                        <% }) %>
+                            <% }) %>
                     </tbody>
                 </table>
             </td>
@@ -285,6 +299,20 @@
         <button onClick="redirectToDashBoard()"> View Analytics</button>
     </div>
     <script>
+
+        function deleteOp(authToken, operator, space) {
+
+            if (confirm("Do you want to delete this record ")) {
+                window.location.href = "/removeOperator?AuthToken=" + authToken + "&opCode=" + operator + "&space=" + space;
+            }
+        }
+
+        function deleteComp(authToken, company, space) {
+
+            if (confirm("Do you want to delete this record ")) {
+                window.location.href = "/removeCompany?AuthToken=" + authToken + "&companyCode=" + company + "&space=" + space;
+            }
+        }
         var selectedRow = null
 
         function onFormSubmit(e) {

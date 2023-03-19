@@ -234,11 +234,11 @@
                     </div>
                     <div class="form-value">
                         <label for="carSlots">Contact</label>
-                        <input type="number" name="opContact" id="opContact">
+                        <input type="text" name="opContact" id="opContact">
                     </div>
                     <div class="form-value">
                         <label for="scooterSlots">Other Details</label>
-                        <input type="number" name="opOther" id="opOther">
+                        <input type="text" name="opOther" id="opOther">
                     </div>
 
                     <div class="form_action--button" style="display: flex; justify-content: space-between;">
@@ -258,22 +258,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% companyInfo.forEach(function(company, index) { %>
+                        <% opInfo.forEach(function(operator, index) { %>
                             <tr>
-                                <td style="width:15%;"><%= company.companyId %></td>
-                                <td style="color:#ffcc99; width:25%;"><%= company.companyName %></td>
-                                <td><%= company.carSlots %></td>
-                                <td><%= company.scooterSlots %></td>
+                                <td style="width:15%;"><%= operator.operatorId %></td>
+                                <td style="color:#ffcc99; width:25%;"><%= operator.operator %></td>
+                                <td><%= operator.contact %></td>
+                                <td><%= operator.meta %></td>
                                 <td>
-                                    <button onClick="onEdit(this)">Edit</button>
-                                    <a href="/removeCompany?AuthToken=<%= authToken %>&companyCode=<%= company.companyId %>&space=<%= company.spaceId %>"
+                                    <button onClick="onEditOp(this)">Edit</button>
+                                    <a href="/removeOperator?AuthToken=<%= authToken %>&opCode=<%= operator.operatorId %>&space=<%= operator.spaceId %>"
                                         style="text-decoration: none;">
                                         <button>Delete</button>
                                     </a>
                                 </td>
                             </tr>
 
-                            <% }) %>
+                        <% }) %>
                     </tbody>
                 </table>
             </td>
@@ -334,6 +334,13 @@
             document.getElementById("companyName").value = selectedRow.cells[1].innerHTML;
             document.getElementById("carSlots").value = selectedRow.cells[2].innerHTML;
             document.getElementById("scooterSlots").value = selectedRow.cells[3].innerHTML;
+            // document.getElementById("perPrice").value = selectedRow.cells[3].innerHTML;
+        }
+        function onEditOp(td) {
+            selectedRow = td.parentElement.parentElement;
+            document.getElementById("opName").value = selectedRow.cells[1].innerHTML;
+            document.getElementById("opContact").value = selectedRow.cells[2].innerHTML;
+            document.getElementById("opOther").value = selectedRow.cells[3].innerHTML;
             // document.getElementById("perPrice").value = selectedRow.cells[3].innerHTML;
         }
         function updateRecord(formData) {

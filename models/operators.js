@@ -11,17 +11,10 @@ const operators = ezParkSequelize.define('operators', {
     },
     operatorId: {type: sequelize.STRING, allowNull: false},
     operator: {type: sequelize.STRING, allowNull: false},
-    chargeConfig: {
-        type: sequelize.TEXT,
-           get: function () {
-                return JSON.parse(this.getDataValue('value'));
-            },
-            set: function (value) {
-                this.setDataValue('value', JSON.stringify(value));
-            }
-    },
     spaceId : { type: sequelize.INTEGER},
     validationCode: {type:sequelize.STRING},
+    contact: {type:sequelize.STRING},
+    meta: {type:sequelize.STRING},
     createdAt: {type: 'TIMESTAMP', allowNull:false, defaultValue: sequelize.literal('CURRENT_TIMESTAMP')}
 },{timestamps: false});
 

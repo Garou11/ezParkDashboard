@@ -1,6 +1,7 @@
 const tblSpaceId = require('../models/tblSpace_ID_Mapping');
 const tblCompanySpace = require('../models/tblCompany_Space_Mapping');
 const sequelize = require('sequelize');
+const operators = require('../models/operators');
 
 const getSpaceAndCompany = async function (spaceid) {
     try {
@@ -31,29 +32,35 @@ const getSpaceAndCompany = async function (spaceid) {
 
 const getOpDetails = async function (spaceid) {
     try {
-        let space = await tblSpaceId.findOne({
+        let opInfo = await operators.findAll({
             where: {
-                spaceId: spaceid
+                spaceId : spaceid
             },
             raw: true
         });
 
-        let companyInfo = [];
-        if (space) {
-            companyInfo = await tblCompanySpace.findAll({
-                where: {
-                    spaceId: spaceid
-                },
-                raw: true
-            });
-        }
-
-        return [space, companyInfo];
+        return opInfo;
     } catch (e) {
         console.log(e);
         return;
     }
 
+}
+
+const generateRandomNumberOp = async function (spaceid) {
+    let code = Math.floor(Math.random() * 899999 + 100000);
+    let opcode = await operators.findOne({
+        where: {
+            operatorId: code
+        },
+        attributes: ['operatorId'],
+        raw: true
+    });
+    if (opcode && opcode.operatorId) {
+       return await generateRandomNumberOp(spaceid);
+    }
+    
+    return code;
 }
 
 const generateRandomNumber = async function (spaceid) {
@@ -127,48 +134,36 @@ const addUpdateCompany = async function (companyData, spaceid) {
 
 const addUpdateOperator = async function (opData, spaceid) {
     try {
-        let checkexisting = await tblCompanySpace.findOne({
+        let checkexisting = await operators.findOne({
             where: {
-                companyName: companyData.companyName
+                operator: opData.opName
             },
             raw: true
         })
 
-        if (checkexisting && checkexisting.companyId) {
-            let updateAvailableCarSlots = companyData.carSlots - checkexisting.carSlots + checkexisting.availableCarSlots;
-            let updateAvailableScooterSlots = companyData.scooterSlots - checkexisting.scooterSlots + checkexisting.availableScooterSlots;
-            if (updateAvailableCarSlots < 0) {
-                updateAvailableCarSlots = 0;
-            }
-            if (updateAvailableScooterSlots < 0) {
-                updateAvailableScooterSlots = 0;
-            }
-            let companyUpdate = await tblCompanySpace.update(
+        if (checkexisting && checkexisting.operatorId) {
+            let opUpdate = await operators.update(
                 {
-                    carSlots: companyData.carSlots,
-                    scooterSlots: companyData.scooterSlots,
-                    totalSlots: companyData.totalSlots,
-                    availableCarSlots: updateAvailableCarSlots,
-                    availableScooterSlots: updateAvailableScooterSlots
+                    operator: opData.opName,
+                    contact: opData.opContact,
+                    meta: opData.opOther
                 },
                 {
                     where: {
-                        companyId: checkexisting.companyId
+                        operatorId: checkexisting.operatorId
                     }
                 }
             );
             return true;
         } else {
-            let generatedCode = await generateRandomNumber(spaceid);
+            let generatedCode = await generateRandomNumberOp(spaceid);
             console.log(generatedCode);
-            let addCompany = await tblCompanySpace.create({
-                companyName: companyData.companyName,
-                companyId: generatedCode,
-                spaceId: spaceid,
-                availableCarSlots: companyData.carSlots,
-                availableScooterSlots: companyData.availableScooterSlots,
-                carSlots: companyData.carSlots,
-                scooterSlots: companyData.scooterSlots
+            let addOp = await operators.create({
+                operatorId: generatedCode,
+                operator: opData.opName,
+                contact: opData.opContact,
+                meta: opData.opOther,
+                spaceId: spaceid
             });
             return true;
         }
@@ -194,11 +189,25 @@ const removeTenant = async function(data){
         return false;
     }
 }
+const removeOp = async function(data){
+    try{
+        let archived = await operators.destroy({
+            where:{
+                operatorId: data.opCode,
+                spaceId: data.space
+            }
+        });
+        return true;
+    }catch (e){
+        return false;
+    }
+}
 
 module.exports = {
     getSpaceAndCompany,
     addUpdateCompany,
     removeTenant,
     getOpDetails,
-    addUpdateOperator
+    addUpdateOperator,
+    removeOp
 }

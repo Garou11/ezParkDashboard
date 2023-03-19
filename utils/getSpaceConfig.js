@@ -119,7 +119,7 @@ const addUpdateCompany = async function (companyData, spaceid) {
                 companyId: generatedCode,
                 spaceId: spaceid,
                 availableCarSlots: companyData.carSlots,
-                availableScooterSlots: companyData.availableScooterSlots,
+                availableScooterSlots: companyData.scooterSlots,
                 carSlots: companyData.carSlots,
                 scooterSlots: companyData.scooterSlots
             });

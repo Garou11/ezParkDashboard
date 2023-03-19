@@ -54,16 +54,21 @@ const addUpdateCompany = async function (companyData, spaceid) {
         })
 
         if (checkexisting && checkexisting.companyId) {
-            let updateAvailableSlots = companyData.totalSlots - checkexisting.totalSlots + checkexisting.availableSlots;
-            if (updateAvailableSlots < 0) {
-                updateAvailableSlots = 0;
+            let updateAvailableCarSlots = companyData.carSlots - checkexisting.carSlots + checkexisting.availableCarSlots;
+            let updateAvailableScooterSlots = companyData.scooterSlots - checkexisting.scooterSlots + checkexisting.availableScooterSlots;
+            if (updateAvailableCarSlots < 0) {
+                updateAvailableCarSlots = 0;
+            }
+            if (updateAvailableScooterSlots < 0) {
+                updateAvailableScooterSlots = 0;
             }
             let companyUpdate = await tblCompanySpace.update(
                 {
                     carSlots: companyData.carSlots,
                     scooterSlots: companyData.scooterSlots,
                     totalSlots: companyData.totalSlots,
-                    availableSlots: updateAvailableSlots
+                    availableCarSlots: updateAvailableCarSlots,
+                    availableScooterSlots: updateAvailableScooterSlots
                 },
                 {
                     where: {
@@ -79,8 +84,8 @@ const addUpdateCompany = async function (companyData, spaceid) {
                 companyName: companyData.companyName,
                 companyId: generatedCode,
                 spaceId: spaceid,
-                totalSlots: companyData.totalSlots,
-                availableSlots: companyData.totalSlots,
+                availableCarSlots: companyData.carSlots,
+                availableScooterSlots: companyData.availableScooterSlots,
                 carSlots: companyData.carSlots,
                 scooterSlots: companyData.scooterSlots
             });

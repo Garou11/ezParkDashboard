@@ -11,6 +11,7 @@ const tblCompanySpace = ezParkSequelize.define('tblCompany_Space_Mapping', {
     companyName: {type:sequelize.STRING, allowNull: false},
     carSlots: {type: sequelize.INTEGER},
     scooterSlots: {type: sequelize.INTEGER},
+    totalSlots: {type: sequelize.INTEGER},
     availableCarSlots: {type: sequelize.INTEGER},
     availableScooterSlots: {type: sequelize.INTEGER}
 },{timestamps: false});

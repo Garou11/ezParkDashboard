@@ -121,7 +121,8 @@ const addUpdateCompany = async function (companyData, spaceid) {
                 availableCarSlots: companyData.carSlots,
                 availableScooterSlots: companyData.scooterSlots,
                 carSlots: companyData.carSlots,
-                scooterSlots: companyData.scooterSlots
+                scooterSlots: companyData.scooterSlots,
+                totalSlots: companyData.totalSlots
             });
             return true;
         }

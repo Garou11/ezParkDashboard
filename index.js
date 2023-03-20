@@ -80,7 +80,7 @@ app.post('/aurbis', async (req, res) => {
             companyInfo.companyName = req.body.companyName;
             companyInfo.carSlots = parseInt(req.body.carSlots) || 0;
             companyInfo.scooterSlots = parseInt(req.body.scooterSlots) || 0;
-            companyInfo.totalSlots = companyInfo.carSlots+ companyInfo.scooterSlots;
+            companyInfo.totalSlots = companyInfo.carSlots + companyInfo.scooterSlots;
             let isOperationDone = await addUpdateCompany(companyInfo, 3);
             return res.redirect(req.get('referer'));
         }

@@ -6,7 +6,8 @@ const {getSpaceAndCompany, addUpdateCompany, removeTenant,getOpDetails, addUpdat
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static("public"));
 
 app.use(function (req, res, next) {
     res.locals.userValue = null;
@@ -79,7 +80,7 @@ app.post('/aurbis', async (req, res) => {
             companyInfo.companyName = req.body.companyName;
             companyInfo.carSlots = parseInt(req.body.carSlots) || 0;
             companyInfo.scooterSlots = parseInt(req.body.scooterSlots) || 0;
-            companyInfo.totalSlots = companyInfo.carSlots+ companyInfo.scooterSlots;
+            companyInfo.totalSlots = companyInfo.carSlots + companyInfo.scooterSlots;
             let isOperationDone = await addUpdateCompany(companyInfo, 3);
             return res.redirect(req.get('referer'));
         }
@@ -91,24 +92,6 @@ app.post('/aurbis', async (req, res) => {
         return res.redirect(req.get('referer'));
     }
 });
-
-// app.get('/aurbisOperator', async (req, res) => {
-//     try {
-//         if (!req.query.AuthToken || req.query.AuthToken != 'b4OCdksX14M4IC7guMwrmvuaF3yO3cpY') {
-//             res.redirect(301, '/');
-//         }
-//         let spaceId = 3;
-//         let [space, opInfo] = await getOpDetails(spaceId);
-//         let data = {};
-//         data.authToken = req.query.AuthToken;
-//         data.space = space;
-//         data.opInfo = opInfo;
-//         return res.render('dashboardView', data);
-//     } catch(e){
-//         console.log(e);
-//         return res.redirect(301,'/');
-//     }
-// });
 
 app.post('/aurbisOperator', async(req, res)=>{
     try{
@@ -181,4 +164,6 @@ app.get('/removeOperator', async(req,res) => {
 
 });
 
-app.listen(8081);
+app.listen(8081, (err)=>{
+    console.log("App Listening on port 8081");
+});
